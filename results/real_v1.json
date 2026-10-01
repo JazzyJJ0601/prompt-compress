@@ -1,0 +1,38 @@
+{
+  "setup": {
+    "model": "Qwen3-8B",
+    "data": "WikiText-2 test, 40 passages",
+    "context_tokens": 384,
+    "continuation_tokens": 64
+  },
+  "full": {
+    "continuation_ppl": 8.509
+  },
+  "none": {
+    "continuation_ppl": 30.678
+  },
+  "recent@0.5": {
+    "continuation_ppl": 9.761
+  },
+  "random@0.5": {
+    "continuation_ppl": 13.342
+  },
+  "surprisal@0.5": {
+    "continuation_ppl": 12.296
+  },
+  "combined@0.5": {
+    "continuation_ppl": 12.665
+  },
+  "recent@0.25": {
+    "continuation_ppl": 11.186
+  },
+  "random@0.25": {
+    "continuation_ppl": 19.661
+  },
+  "surprisal@0.25": {
+    "continuation_ppl": 17.062
+  },
+  "combined@0.25": {
+    "continuation_ppl": 16.737
+  }
+}

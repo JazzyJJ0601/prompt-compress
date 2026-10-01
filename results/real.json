@@ -1,0 +1,104 @@
+{
+  "setup": {
+    "model": "Qwen3-8B",
+    "data": "WikiText-2 test: passages 0-39 = test, 40-59 = dev (dev only chooses the recent fraction)",
+    "context_tokens": 384,
+    "continuation_tokens": 64
+  },
+  "test/full": {
+    "continuation_ppl": 8.509
+  },
+  "test/none": {
+    "continuation_ppl": 30.678
+  },
+  "test/recent@0.5": {
+    "continuation_ppl": 9.761
+  },
+  "test/random@0.5": {
+    "continuation_ppl": 13.342
+  },
+  "test/surprisal@0.5": {
+    "continuation_ppl": 12.296
+  },
+  "test/combined@0.5": {
+    "continuation_ppl": 12.665
+  },
+  "test/recent+spans0.5@0.5": {
+    "continuation_ppl": 9.161
+  },
+  "test/recent+spans0.75@0.5": {
+    "continuation_ppl": 9.086
+  },
+  "test/recent+spans0.9@0.5": {
+    "continuation_ppl": 9.295
+  },
+  "test/recent@0.25": {
+    "continuation_ppl": 11.186
+  },
+  "test/random@0.25": {
+    "continuation_ppl": 19.661
+  },
+  "test/surprisal@0.25": {
+    "continuation_ppl": 17.062
+  },
+  "test/combined@0.25": {
+    "continuation_ppl": 16.737
+  },
+  "test/recent+spans0.5@0.25": {
+    "continuation_ppl": 10.421
+  },
+  "test/recent+spans0.75@0.25": {
+    "continuation_ppl": 10.331
+  },
+  "test/recent+spans0.9@0.25": {
+    "continuation_ppl": 10.795
+  },
+  "dev/full": {
+    "continuation_ppl": 10.857
+  },
+  "dev/none": {
+    "continuation_ppl": 31.537
+  },
+  "dev/recent@0.5": {
+    "continuation_ppl": 12.203
+  },
+  "dev/random@0.5": {
+    "continuation_ppl": 15.938
+  },
+  "dev/surprisal@0.5": {
+    "continuation_ppl": 15.793
+  },
+  "dev/combined@0.5": {
+    "continuation_ppl": 15.824
+  },
+  "dev/recent+spans0.5@0.5": {
+    "continuation_ppl": 11.059
+  },
+  "dev/recent+spans0.75@0.5": {
+    "continuation_ppl": 10.741
+  },
+  "dev/recent+spans0.9@0.5": {
+    "continuation_ppl": 11.498
+  },
+  "dev/recent@0.25": {
+    "continuation_ppl": 14.097
+  },
+  "dev/random@0.25": {
+    "continuation_ppl": 20.7
+  },
+  "dev/surprisal@0.25": {
+    "continuation_ppl": 19.662
+  },
+  "dev/combined@0.25": {
+    "continuation_ppl": 19.304
+  },
+  "dev/recent+spans0.5@0.25": {
+    "continuation_ppl": 12.044
+  },
+  "dev/recent+spans0.75@0.25": {
+    "continuation_ppl": 12.71
+  },
+  "dev/recent+spans0.9@0.25": {
+    "continuation_ppl": 13.461
+  }
+}

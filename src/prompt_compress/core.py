@@ -93,10 +93,20 @@ class TokenImportanceScorer:
         probs = self._softmax(logits / self.temperature)
         seq_len = probs.shape[0]
 
+        # logits[i] is the model's prediction for token i+1, so token t is
+        # scored from position t-1. The first token has no prediction and is
+        # given the top score so it is always kept.
         entropy_scores = self._entropy(probs)
+        entropy_scores = np.concatenate([[entropy_scores.max()], entropy_scores[:-1]])
 
         if target_token_ids is not None:
-            surprisal_scores = self._surprisal(probs, target_token_ids)
+            target_token_ids = np.asarray(target_token_ids)
+            surprisal_scores = np.empty(seq_len)
+            if seq_len > 1:
+                surprisal_scores[1:] = self._surprisal(probs[:-1], target_token_ids[1:])
+                surprisal_scores[0] = surprisal_scores[1:].max()
+            else:
+                surprisal_scores[0] = 0.0
         else:
             surprisal_scores = entropy_scores
 
@@ -362,3 +372,23 @@ def compress_prompt(model: str, prompt: str, budget: float,
 
     result = [t for t in compressed if t != "[MASK]"]
     return " ".join(result)
+
+
+def span_pick(scores: np.ndarray, k: int, recent: int, span: int = 16) -> np.ndarray:
+    """Indices of the tokens to keep, in order.
+
+    Keeps the last `recent` tokens, then fills the rest of the budget `k` with whole
+    `span`-token chunks of the older context, highest mean score first. Use per-token
+    surprisal (-log p of each token given what came before) as `scores`."""
+    n = len(scores)
+    keep = set(range(n - recent, n))
+    older = n - recent
+    chunks = [(scores[s:min(s + span, older)].mean(), s) for s in range(0, older, span)]
+    for _, s in sorted(chunks, reverse=True):
+        for t in range(s, min(s + span, older)):
+            if len(keep) >= k:
+                break
+            keep.add(t)
+        if len(keep) >= k:
+            break
+    return np.array(sorted(keep))

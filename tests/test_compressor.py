@@ -131,3 +131,12 @@ def test_threshold_calculation():
     threshold = compressor.get_threshold(scores, budget_ratio=0.5)
     
     assert 0.3 <= threshold <= 0.7
+
+
+def test_span_pick_keeps_recent_and_best_span():
+    import numpy as np
+    from src.prompt_compress.core import span_pick
+    scores = np.zeros(64)
+    scores[16:32] = 5.0
+    kept = span_pick(scores, 32, 16, span=16)
+    assert list(kept) == list(range(16, 32)) + list(range(48, 64))

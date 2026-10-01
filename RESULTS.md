@@ -1,18 +1,17 @@
-# Prompt-Compress Real Benchmark Results
+# Prompt-Compress: measured results
 
-**Status:** Negative result on Qwen3-8B: dropping half the prompt tokens raised perplexity 50-100x (e.g. 37 to 4,276). The current importance scorer does not preserve meaning.
+Qwen3-8B, bf16. WikiText-2 test: 384-token context, then perplexity on the next 64 tokens.
+Passages 0-39 = test (below), 40-59 = dev (used only to pick the recent share).
+Command: `python results/run_real.py` (writes `results/real.json`).
 
-## Command
-python3 repos/prompt-compress/results/run_real.py
+| Method | 50% kept | 25% kept |
+|---|---|---|
+| Full context | 8.51 | 8.51 |
+| No context | 30.68 | 30.68 |
+| Random | 13.34 | 19.66 |
+| Surprisal, single tokens | 12.30 | 17.06 |
+| Combined score, single tokens | 12.67 | 16.74 |
+| Recent only | 9.76 | 11.19 |
+| Recent + surprising 16-token spans (recent share picked on dev: 0.75 / 0.5) | **9.09** | **10.42** |
 
-## Results
-
-| Prompt | Original Tokens | Retained Tokens | Baseline PPL | Compressed PPL |
-|--------|-----------------|-----------------|----------------|----------------|
-| The quick brown fox jumps over... | 10 | 5 | 3.46 | 186.56 |
-| Artificial intelligence is tra... | 8 | 4 | 51.12 | 1902.60 |
-| Machine learning models need l... | 9 | 4 | 37.10 | 4276.45 |
-
-## Interpretation
-
-The compression method scores tokens by information-theoretic importance and drops the lowest-scoring half. As expected, compressing to 50% of tokens increases perplexity because semantic information is lost when tokens are removed. The increase is large, so the current scorer is removing tokens the model needs.
+`results/real_v1.json` is the first run of this benchmark (before the span method). Earlier results in this file (self-perplexity of 3 short garbled prompts) are withdrawn; see the README.
