@@ -36,7 +36,7 @@ Three compression strategies:
 from prompt_compress.core import compress_prompt
 
 compressed = compress_prompt(
-    model="gpt2",
+    model="Qwen3-8B",  # or any HF decoder-only model; see RESULTS.md for actual perplexity benchmarks
     prompt="Your long prompt text here...",
     budget=0.6,
     task_type="prose"
@@ -45,7 +45,7 @@ compressed = compress_prompt(
 
 Or from the command line:
 ```
-prompt-compress --model gpt2 --prompt "Your text" --budget 0.6 --task-type prose
+prompt-compress --model Qwen3-8B # or any HF model --prompt "Your text" --budget 0.6 --task-type prose
 ```
 
 ## How it compares
@@ -63,6 +63,12 @@ prompt-compress --model gpt2 --prompt "Your text" --budget 0.6 --task-type prose
 - **Universal** — any decoder-only HF model
 - **Adaptive** — thresholds per-task and per-budget
 - **Interpretable** — retention decisions based on measurable information metrics
+
+## Results
+
+**Measured status:** Negative result on Qwen3-8B: dropping half the prompt tokens raised perplexity 50-100x (e.g. 37 to 4,276). The current importance scorer does not preserve meaning.
+
+See [RESULTS.md](RESULTS.md) for real benchmark results on Qwen3-8B / local HF models showing perplexity, inference time, and memory usage for compressed vs baseline prompts.
 
 ## Requirements
 
